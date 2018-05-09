@@ -1,0 +1,32 @@
+[
+  {
+  "BookName": "Concurrency in Practice",
+  "Author": "Felipe Coury",
+  "ISBN": "978-3-16-14510-0"
+  },
+  {
+  "BookName": "Hbase in Action",
+  "Author": "oreilly",
+  "ISBN": "978-3-16-148110-0"
+  },
+  {
+  "BookName": "Angular2 ",
+  "Author": "Ari Lerner",
+  "ISBN": "345-3-16-148410-0"
+  },
+  {
+  "BookName": "SQL Developer Book",
+  "Author": "Kristina Chodorow",
+  "ISBN": "978-3-16-148410-0"
+  },
+  {
+    "BookName": "The Definitive Guide",
+    "Author": "Mike Dirolf",
+    "ISBN": "978-3-15-148410-0"
+  },
+  {
+    "BookName": "JAVA ",
+    "Author": "Mike Dirolf",
+    "ISBN": "978-3-15-146410-0"
+  }
+]

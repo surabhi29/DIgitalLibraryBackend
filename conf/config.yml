@@ -1,0 +1,21 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 45000
+  adminConnectors:
+    - type: http
+      port: 45001
+  applicationContextPath: /api.cnb.com/v1
+
+logging:
+  level: info
+  loggers:
+    io.dropwizard: info
+  appenders:
+    - type: console
+
+jdbcURL: jdbc:mysql://localhost:3306/Demo
+userName: root
+password: root
+sqlDriver: com.mysql.cj.jdbc.Driver
+inputFolderPath: inputFolderPath/bookDetails.json
