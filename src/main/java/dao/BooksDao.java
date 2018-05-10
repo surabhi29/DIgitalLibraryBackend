@@ -61,6 +61,8 @@ public class BooksDao {
                 + " values (?, ?, ?, ?)";
         try{
             connect = DBConnection.getDBConnection();
+            if(connect == null)
+                throw new SQLException();
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, bookName);
             preparedStatement.setString(2, author);
@@ -80,6 +82,8 @@ public class BooksDao {
         List<BookDetails> bookDetails = null;
         try {
             connect = DBConnection.getDBConnection();
+            if(connect == null)
+                throw new SQLException();
             statement = connect.createStatement();
 
             resultSet = statement
@@ -114,6 +118,8 @@ public class BooksDao {
         LocationDetails locationDetails = null;
         try {
             connect = DBConnection.getDBConnection();
+            if(connect == null)
+                throw new SQLException();
             statement = connect.createStatement();
 
             resultSet = statement
@@ -146,6 +152,8 @@ public class BooksDao {
 
         String updateStatusQuery = "update book_details set status='Available' where id=" + bookId;
         try {
+            if(connect == null)
+                throw new SQLException();
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setInt(1, locationDetails.getShelfNumber());
             preparedStatement.setInt(2, locationDetails.getRowNumber());
@@ -178,6 +186,8 @@ public class BooksDao {
         String bookDetailsUpdateQuery = "update book_details set status='Issued' where id=" + bookId;
         try {
             connect = DBConnection.getDBConnection();
+            if(connect == null)
+                throw new SQLException();
             statement = connect.createStatement();
             resultSet = statement
                         .executeQuery("select id from book_details where id="
@@ -211,6 +221,8 @@ public class BooksDao {
         String bookDetailsUpdateQuery = "update book_details set status='Maintenance' where id=" + bookId;
         try {
             connect = DBConnection.getDBConnection();
+            if(connect == null)
+                throw new SQLException();
             preparedStatement = connect.prepareStatement(bookDetailsUpdateQuery);
             preparedStatement.execute();
         }catch (SQLException e){
@@ -232,6 +244,8 @@ public class BooksDao {
                 "inner join book_details on bookIssue_details.book_id = book_details.id where bookIssue_details.book_id=" + bookId;
         try {
             connect = DBConnection.getDBConnection();
+            if(connect == null)
+                throw new SQLException();
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
