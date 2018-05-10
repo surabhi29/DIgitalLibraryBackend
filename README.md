@@ -25,4 +25,3 @@ FOREIGN KEY (book_id) REFERENCES book_details(id));
 3.)Details related to sql server connection and book details information are mentioned in config.yml.
 4.)To start an application 2 arguments are passed server and path of the config.yml separated by space.
 5.)Checked the services result using insomnia application.
-
