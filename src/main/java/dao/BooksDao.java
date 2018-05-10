@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class BooksDao {
     private static Log logger = LogFactory.getLog(BooksDao.class);
-    private Connection connect = DBConnection.getDBConnection();
+    private Connection connect= null;
     private Statement statement = null;
     private ResultSet resultSet = null;
     private PreparedStatement preparedStatement = null;
@@ -60,6 +60,7 @@ public class BooksDao {
         String query = "insert into book_details (book_name, author, isbn, status)"
                 + " values (?, ?, ?, ?)";
         try{
+            connect = DBConnection.getDBConnection();
             preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, bookName);
             preparedStatement.setString(2, author);
@@ -69,6 +70,8 @@ public class BooksDao {
 
         }catch (SQLException e) {
             logger.error(e.getMessage());
+        }finally {
+            close();
         }
     }
 
@@ -76,6 +79,7 @@ public class BooksDao {
     public List<BookDetails> getBooks() {
         List<BookDetails> bookDetails = null;
         try {
+            connect = DBConnection.getDBConnection();
             statement = connect.createStatement();
 
             resultSet = statement
@@ -84,6 +88,8 @@ public class BooksDao {
              bookDetails = writeResultSet(resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
+        }finally {
+            close();
         }
 
         return bookDetails;
@@ -107,6 +113,7 @@ public class BooksDao {
     public LocationDetails getLocation(int bookId) {
         LocationDetails locationDetails = null;
         try {
+            connect = DBConnection.getDBConnection();
             statement = connect.createStatement();
 
             resultSet = statement
@@ -120,6 +127,8 @@ public class BooksDao {
             }
         }catch (SQLException e) {
             logger.error("Error ::" + e.getErrorCode() + e.getMessage());
+        }finally {
+            close();
         }
 
         return locationDetails;
@@ -129,6 +138,8 @@ public class BooksDao {
     public void updateLocation(int bookId, LocationDetails locationDetails){
         if(locationDetails == null)
             throw new WebApplicationException("Bad data", Response.Status.BAD_REQUEST);
+
+        connect = DBConnection.getDBConnection();
 
         String query = "insert into location_details (shelf_number, row_number, column_number, book_id)"
                 + " values (?, ?, ?, ?)";
@@ -148,6 +159,8 @@ public class BooksDao {
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new WebApplicationException("Duplicate Entry", Response.Status.CONFLICT);
+        }finally {
+            close();
         }
     }
 
@@ -164,6 +177,7 @@ public class BooksDao {
 
         String bookDetailsUpdateQuery = "update book_details set status='Issued' where id=" + bookId;
         try {
+            connect = DBConnection.getDBConnection();
             statement = connect.createStatement();
             resultSet = statement
                         .executeQuery("select id from book_details where id="
@@ -187,6 +201,8 @@ public class BooksDao {
         }catch (SQLException e){
             logger.error("Error::" + e.getErrorCode() + e.getMessage());
             throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+        }finally {
+            close();
         }
     }
 
@@ -194,11 +210,14 @@ public class BooksDao {
     public void updateBookData(int bookId) {
         String bookDetailsUpdateQuery = "update book_details set status='Maintenance' where id=" + bookId;
         try {
+            connect = DBConnection.getDBConnection();
             preparedStatement = connect.prepareStatement(bookDetailsUpdateQuery);
             preparedStatement.execute();
         }catch (SQLException e){
             logger.error(e.getMessage());
             throw new WebApplicationException(e.getMessage(), Response.Status.BAD_REQUEST);
+        }finally {
+            close();
         }
     }
 
@@ -212,6 +231,7 @@ public class BooksDao {
         String query ="select book_name, name, issue_date, to_date from bookIssue_details  \n" +
                 "inner join book_details on bookIssue_details.book_id = book_details.id where bookIssue_details.book_id=" + bookId;
         try {
+            connect = DBConnection.getDBConnection();
             statement = connect.createStatement();
             resultSet = statement.executeQuery(query);
 
@@ -230,6 +250,8 @@ public class BooksDao {
 
         }catch (SQLException e) {
             logger.error("error ::" + e.getErrorCode() + e.getMessage());
+        }finally {
+            close();
         }
 
         return sortedList;
